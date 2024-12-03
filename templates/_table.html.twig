@@ -1,0 +1,16 @@
+<table>
+    <thead>
+    {% for title in titles %}
+        <th>{{ title }}</th>
+    {% endfor %}
+    </thead>
+
+    <tbody>
+    {% for row in rows %}
+        <tr>
+            <td>{{ row.data }}</td>
+            <td>{{ row.result }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
