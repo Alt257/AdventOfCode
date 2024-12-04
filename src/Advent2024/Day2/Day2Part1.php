@@ -16,8 +16,6 @@ class Day2Part1 extends AbstractDay2 {
     private const  SECURITY_UNSAFE = '<span style="color: red">UNSAFE</span>';
 
     protected function resolve(array $data): Solution {
-        $solution = (new Solution())->setInputLabel('Report')
-                                    ->setCalculationLabel('Security');
 
         $safeReportsCounter = 0;
 
@@ -45,12 +43,12 @@ class Day2Part1 extends AbstractDay2 {
             } while($i < sizeof($report));
 
             $calculation = '[' . ($isSafe ? self::SECURITY_OK : self::SECURITY_UNSAFE) . ']';
-            $solution->addData($input, $calculation);
+            $this->solution->addData($input, $calculation);
 
             $safeReportsCounter += $isSafe ? 1 : 0;
         }
 
-        return $solution->setResult($safeReportsCounter);
+        return $this->solution->setResult($safeReportsCounter);
     }
 
 }

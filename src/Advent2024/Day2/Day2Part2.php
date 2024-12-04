@@ -19,11 +19,11 @@ class Day2Part2 extends AbstractDay2 {
      * @return \AOC\Entity\Solution
      */
     protected function resolve(array $data): \AOC\Entity\Solution {
+        $solution = (new Solution())->setInputLabel('')
+                                    ->setCalculationLabel('');
 
-        return (new Solution())->setCalculationLabel("Calculation")
-                               ->setInputLabel("Input data")
-                               ->addData('7 6 5 8 1 9', 'OK')
-                               ->setResult(42);
+        
+        return $solution;
     }
 
 }

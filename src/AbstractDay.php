@@ -19,10 +19,17 @@ abstract class AbstractDay {
 
     private static ?Environment $twigEnvironement = null;
 
-    protected function __construct(private readonly int  $year,
+    protected Solution $solution;
+
+    protected function __construct(string                $inputLabel,
+                                   string                $calculationLabel,
+                                   private readonly int  $year,
                                    private readonly int  $day,
                                    private readonly ?int $part = null,
-    ) {}
+    ) {
+        $this->solution = (new Solution())->setInputLabel($inputLabel)
+                                          ->setCalculationLabel($calculationLabel);
+    }
 
     /**
      * @return Environment

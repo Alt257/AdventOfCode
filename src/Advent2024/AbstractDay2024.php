@@ -8,10 +8,15 @@ use AOC\AbstractDay;
 
 abstract class AbstractDay2024 extends AbstractDay {
 
-    protected function __construct(int  $day,
-                                   ?int $part = null,
+    protected function __construct(string $inputLabel,
+                                   string $calculationLabel,
+                                   int    $day,
+                                   ?int   $part = null,
     ) {
-        parent::__construct(2024, $day, $part);
+        parent::__construct($inputLabel,
+                            $calculationLabel,
+                            2024, $day, $part,
+        );
     }
 
 }
