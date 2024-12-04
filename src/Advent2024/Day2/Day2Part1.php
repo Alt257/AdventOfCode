@@ -9,13 +9,11 @@ require_once '../AbstractDay2024.php';
 
 class Day2Part1 extends AbstractDay2 {
 
-    private const  MIN_DIFF_LEVEL = 1;
-    private const  MAX_DIFF_LEVEL = 3;
+    function __construct() {
+        parent::__construct(1);
+    }
 
-    private const  SECURITY_OK     = '<span style="color: green">OK</span>';
-    private const  SECURITY_UNSAFE = '<span style="color: red">UNSAFE</span>';
-
-    protected function resolve(array $data): Solution {
+    protected function resolve(Solution $solution, array $data): int {
 
         $safeReportsCounter = 0;
 
@@ -42,13 +40,16 @@ class Day2Part1 extends AbstractDay2 {
                 $i++;
             } while($i < sizeof($report));
 
-            $calculation = '[' . ($isSafe ? self::SECURITY_OK : self::SECURITY_UNSAFE) . ']';
-            $this->solution->addData($input, $calculation);
+            $calculation = '['
+                . ($isSafe ? $this->style('OK', ['color' => 'green'])
+                    : $this->style('UNSAFE', ['color' => 'red']))
+                . ']';
+            $solution->addData($input, $calculation);
 
             $safeReportsCounter += $isSafe ? 1 : 0;
         }
 
-        return $this->solution->setResult($safeReportsCounter);
+        return $safeReportsCounter;
     }
 
 }

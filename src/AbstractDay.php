@@ -19,6 +19,7 @@ abstract class AbstractDay {
 
     private static ?Environment $twigEnvironement = null;
 
+    protected Solution $testSolution;
     protected Solution $solution;
 
     protected function __construct(string                $inputLabel,
@@ -27,6 +28,9 @@ abstract class AbstractDay {
                                    private readonly int  $day,
                                    private readonly ?int $part = null,
     ) {
+        $this->testSolution = (new Solution())->setInputLabel($inputLabel)
+                                              ->setCalculationLabel($calculationLabel);
+
         $this->solution = (new Solution())->setInputLabel($inputLabel)
                                           ->setCalculationLabel($calculationLabel);
     }
@@ -61,14 +65,12 @@ abstract class AbstractDay {
         $data     = $this->getData($rawData);
 //        var_dump($testData);
 
-        $testSolution = $this->resolve($testData);
-//        $this->printResult($testAnswer, true);
+        $this->testSolution->setResult($this->resolve($this->testSolution, $testData));
+        $this->solution->setResult($this->resolve($this->solution, $data));
 
-        $solution = $this->resolve($data);
-//        $this->printResult($answer);
         try {
-            $this->render(['testSolution' => $testSolution,
-                           'solution'     => $solution,
+            $this->render(['testSolution' => $this->testSolution,
+                           'solution'     => $this->solution,
                           ]);
         }
         catch(Exception $e) {
@@ -81,7 +83,7 @@ abstract class AbstractDay {
 //        echo "<div style='margin-bottom: 2em;'><strong>Réponse : $answer</strong></div>";
 //    }
 
-    protected abstract function resolve(array $data): Solution;
+    protected abstract function resolve(Solution $solution, array $data): int;
 
     protected abstract function getData(array $rawData): array;
 
