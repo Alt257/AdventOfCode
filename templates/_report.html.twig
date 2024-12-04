@@ -1,0 +1,13 @@
+<div class="report">
+    <div class="report__title">{{ reportTitle }}</div>
+
+    <div class="report__label report__label--input">{{ report.inputLabel|raw }}</div>
+    <div class="report__label report__label--calculation">{{ report.calculationLabel|raw }}</div>
+
+    {% for row in report.data %}
+        <div class="report__row report__row--input">{{ row.input|raw }}</div>
+        <div class="report__row report__row--calculation">{{ row.calculation|raw }}</div>
+    {% endfor %}
+
+    <div class="report__result">Solution : {{ report.result }}</div>
+</div>

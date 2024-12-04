@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" type="text/css" href="/assets/day.css">
+    <link rel="stylesheet" type="text/css" href="/assets/report.css">
 </head>
 <body>
-    <div><strong>{{ test }}</strong></div>
 
-    {{ include('_table.html.twig', {
-        'titles':   titles,
-        'rows':     rows,
+    <h1><strong>{{ title }}</strong></h1>
+
+    {{ include('_report.html.twig', {
+        'reportTitle':  'Test Input',
+        'report':       testSolution,
+        'test':         'true',
     }) }}
+
+
+    {{ include('_report.html.twig', {
+        'reportTitle':  'Input',
+        'report':       solution,
+    }) }}
+
+
 </body>
 </html>

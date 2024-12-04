@@ -2,30 +2,28 @@
 
 namespace AOC\Advent2024\Day2;
 
+use AOC\Entity\Solution;
+
 require_once 'AbstractDay2.php';
+require_once '..\..\Entity\Solution.php';
 
 class Day2Part2 extends AbstractDay2 {
 
-    private const  MIN_DIFF_LEVEL = 1;
-    private const  MAX_DIFF_LEVEL = 3;
+    function __construct() {
+        parent::__construct(2);
+    }
 
-    private const  SECURITY_OK     = '<span style="color: green">OK</span>';
-    private const  SECURITY_UNSAFE = '<span style="color: red">UNSAFE</span>';
+    /**
+     * @param array $data
+     *
+     * @return \AOC\Entity\Solution
+     */
+    protected function resolve(array $data): \AOC\Entity\Solution {
 
-    protected function resolve(array $data): int {
-        echo $this->twig()->render('day.html.twig', [
-            'test'   => 'Ahke coucou ?',
-            'titles' => ['Report', 'Security'],
-            'rows'   => [
-                ['data' => [1, 2, 3, 4, 5], 'result' => ['OK']],
-                ['data' => [1, 2, 3, 4, 5], 'result' => ['OK']],
-                ['data' => [1, 2, 3, 4, 5], 'result' => ['UNSAFE']],
-                ['data' => [1, 2, 3, 4, 5], 'result' => ['OK']],
-                ['data' => [1, 2, 3, 4, 5], 'result' => ['MDR']],
-            ],
-        ]);
-
-        return 0;
+        return (new Solution())->setCalculationLabel("Calculation")
+                               ->setInputLabel("Input data")
+                               ->addData('7 6 5 8 1 9', 'OK')
+                               ->setResult(42);
     }
 
 }

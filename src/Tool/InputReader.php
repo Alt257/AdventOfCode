@@ -40,7 +40,7 @@ class InputReader {
     }
 
     private function fetch(string $url): false|string {
-        echo "<p>Récupération des données de : $url</p>";
+//        echo "<p>Récupération des données de : $url</p>";
         $context = $this->constructContext();
         return $rawData = file_get_contents($url,
                                             false,
@@ -63,7 +63,7 @@ class InputReader {
                                          "http" => [
                                              "method" => "GET",
                                              "header" => "Accept-languange: en-US,en;q=0.9\r\n" .
-                                                         "Cookie: session=" . $session_cookie . "\r\n",
+                                                 "Cookie: session=" . $session_cookie . "\r\n",
                                          ],
                                      ]);
     }

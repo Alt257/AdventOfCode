@@ -1,0 +1,61 @@
+.report {
+    width: min-content;
+    max-height: 12em;
+    overflow: auto;
+    margin-bottom: 1em;
+    border: 1px solid;
+    padding: 0.2em;
+    display: grid;
+    grid-template-areas:
+            "title          title"
+            "result         result"
+            "label_input    label_calculation"
+            "input          calculation";
+
+    span {
+        padding-inline: 0.3em;
+    }
+
+    .report__title {
+        grid-area: title;
+        font-weight: bolder;
+        font-size: large;
+        background-image: linear-gradient(blue, darkblue);
+        color: white;
+        padding: 0.2em;
+        margin: 0;
+    }
+
+    .report__label {
+        text-align: left;
+        font-weight: bold;
+
+    }
+
+    .report__label--input {
+        grid-area: label_input;
+    }
+
+    .report__label--calculation {
+        grid-area: label_calculation;
+    }
+
+    .report__body {
+
+    }
+
+    .row__input {
+        grid-area: input;
+        padding-right: 4em;
+    }
+
+    .row__calculation {
+        grid-area: calculation;
+    }
+
+    .report__result {
+        grid-area: result;
+        font-weight: bold;
+    }
+
+}

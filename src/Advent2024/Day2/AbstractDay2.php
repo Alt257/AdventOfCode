@@ -8,8 +8,8 @@ require_once '..\AbstractDay2024.php';
 
 abstract class AbstractDay2 extends AbstractDay2024 {
 
-    public function __construct() {
-        parent::__construct(2);
+    public function __construct(?int $part = null) {
+        parent::__construct(2, $part);
     }
 
     protected function getData(array $rawData): array {
