@@ -14,6 +14,8 @@ class Day2Part1 extends AbstractDay2 {
     }
 
     protected function resolve(Solution $solution, array $data): int {
+        $solution->setInputLabel('Report')
+                 ->setCalculationLabel('Security');
 
         $safeReportsCounter = 0;
 

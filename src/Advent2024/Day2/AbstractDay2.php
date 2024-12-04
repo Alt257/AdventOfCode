@@ -12,11 +12,7 @@ abstract class AbstractDay2 extends AbstractDay2024 {
     protected const  MAX_DIFF_LEVEL = 3;
 
     public function __construct(?int $part = null) {
-        parent::__construct('Report',
-                            'Security',
-                            2,
-                            $part,
-        );
+        parent::__construct(2, $part);
     }
 
     protected function getData(array $rawData): array {

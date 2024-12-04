@@ -14,6 +14,8 @@ class Day2Part2 extends AbstractDay2 {
     }
 
     protected function resolve(Solution $solution, array $data): int {
+        $solution->setInputLabel('Report')
+                 ->setCalculationLabel('Security');
 
         $safeReportsCounter = 0;
 
@@ -38,7 +40,7 @@ class Day2Part2 extends AbstractDay2 {
                         $input .= $this->style($report[$i], ['color' => 'purple', 'font-weight' => 'bold']);
                     }
                     else {
-                        $input  .= $this->style($report[$i], ['color' => 'red']);
+                        $input  .= $this->style($report[$i], ['color' => 'red', 'font-weight' => 'bold']);
                         $isSafe = false;
                     }
                 }
@@ -49,7 +51,7 @@ class Day2Part2 extends AbstractDay2 {
             } while($i < sizeof($report));
 
             $calculation = '['
-                . ($isSafe ? $this->style('OK', ['color' => 'green'])
+                . ($isSafe ? $this->style('SAFE', ['color' => 'green'])
                     : $this->style('UNSAFE', ['color' => 'red']))
                 . ']';
             $solution->addData($input, $calculation);

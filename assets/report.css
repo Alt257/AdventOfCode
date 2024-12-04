@@ -1,61 +1,78 @@
 .report {
-    width: min-content;
-    max-height: 12em;
-    overflow: auto;
+    width: fit-content;
     margin-bottom: 1em;
     border: 1px solid;
-    padding: 0.2em;
     display: grid;
     grid-template-areas:
+            "report__header"
+            "report__body"
+            "report__footer";
+
+    .report__header {
+        border: 1px solid;
+        grid-area: report__header;
+        display: grid;
+        grid-template-areas:
             "title          title"
-            "result         result"
-            "label_input    label_calculation"
-            "input          calculation";
+            "label_input    label_calculation";
 
-    span {
-        padding-inline: 0.3em;
+        .report__title {
+            grid-area: title;
+            font-weight: bolder;
+            font-size: large;
+            background-image: linear-gradient(blue, darkblue);
+            color: white;
+            padding: 0.4em 0.6em;
+            margin: 0;
+        }
+
+        .report__label {
+            text-align: left;
+            font-weight: bold;
+            padding: 0.4em;
+        }
+
+        .report__label--input {
+            grid-area: label_input;
+        }
+
+        .report__label--calculation {
+            grid-area: label_calculation;
+        }
     }
 
-    .report__title {
-        grid-area: title;
-        font-weight: bolder;
-        font-size: large;
-        background-image: linear-gradient(blue, darkblue);
-        color: white;
-        padding: 0.2em;
-        margin: 0;
-    }
-
-    .report__label {
-        text-align: left;
-        font-weight: bold;
-
-    }
-
-    .report__label--input {
-        grid-area: label_input;
-    }
-
-    .report__label--calculation {
-        grid-area: label_calculation;
-    }
 
     .report__body {
+        max-height: 12em;
+        overflow: auto;
+        grid-area: report__body;
+        display: grid;
+        grid-template-areas:
+            "input  calculation";
 
+        span {
+            padding-inline: 0.3em;
+        }
+
+        .row__input {
+            grid-area: input;
+            padding-right: 4em;
+        }
+
+        .row__calculation {
+            grid-area: calculation;
+        }
     }
 
-    .row__input {
-        grid-area: input;
-        padding-right: 4em;
-    }
+    .report__footer {
+        grid-area: report__footer;
+        border: 1px solid;
 
-    .row__calculation {
-        grid-area: calculation;
-    }
-
-    .report__result {
-        grid-area: result;
-        font-weight: bold;
+        .report__result {
+            grid-area: result;
+            font-weight: bold;
+            padding: 0.4em 0.6em;
+        }
     }
 
 }

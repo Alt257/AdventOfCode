@@ -22,17 +22,17 @@ abstract class AbstractDay {
     protected Solution $testSolution;
     protected Solution $solution;
 
-    protected function __construct(string                $inputLabel,
-                                   string                $calculationLabel,
-                                   private readonly int  $year,
+    protected function __construct(private readonly int  $year,
                                    private readonly int  $day,
                                    private readonly ?int $part = null,
     ) {
-        $this->testSolution = (new Solution())->setInputLabel($inputLabel)
-                                              ->setCalculationLabel($calculationLabel);
+        $this->testSolution = new Solution();
+        $this->solution     = new Solution();
 
-        $this->solution = (new Solution())->setInputLabel($inputLabel)
-                                          ->setCalculationLabel($calculationLabel);
+        $this->testSolution->setInputLabel('');
+        $this->testSolution->setCalculationLabel('');
+        $this->solution->setInputLabel('');
+        $this->solution->setCalculationLabel('');
     }
 
     /**

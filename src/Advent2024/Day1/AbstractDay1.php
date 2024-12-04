@@ -11,8 +11,8 @@ abstract class AbstractDay1 extends AbstractDay2024 {
     protected const LEFT_LIST  = 'LEFT_LIST';
     protected const RIGHT_LIST = 'RIGHT_LIST';
 
-    public function __construct() {
-        parent::__construct(1);
+    public function __construct(?int $part) {
+        parent::__construct(1, $part);
     }
 
     protected function getData(array $rawData): array {
