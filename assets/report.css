@@ -12,6 +12,7 @@
         border: 1px solid;
         grid-area: report__header;
         display: grid;
+        grid-column-gap: 4em;
         grid-template-areas:
             "title          title"
             "label_input    label_calculation";
@@ -29,7 +30,7 @@
         .report__label {
             text-align: left;
             font-weight: bold;
-            padding: 0.4em;
+            padding: 0.4em 0.6em;
         }
 
         .report__label--input {
@@ -43,10 +44,12 @@
 
 
     .report__body {
-        max-height: 12em;
-        overflow: auto;
         grid-area: report__body;
+        max-height: 24em;
+        overflow: auto;
+        padding: 0.8em;
         display: grid;
+        grid-column-gap: 4em;
         grid-template-areas:
             "input  calculation";
 
@@ -56,7 +59,6 @@
 
         .row__input {
             grid-area: input;
-            padding-right: 4em;
         }
 
         .row__calculation {
