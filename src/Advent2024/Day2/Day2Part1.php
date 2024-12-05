@@ -43,7 +43,7 @@ class Day2Part1 extends AbstractDay2 {
             } while($i < sizeof($report));
 
             $calculation = '['
-                . ($isSafe ? $this->style('OK', ['color' => 'green'])
+                . ($isSafe ? $this->style('SAFE', ['color' => 'green'])
                     : $this->style('UNSAFE', ['color' => 'red']))
                 . ']';
             $solution->addData($input, $calculation);
