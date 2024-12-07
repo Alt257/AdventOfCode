@@ -8,7 +8,9 @@ require_once 'AbstractDay1.php';
 
 class Day1Part1 extends AbstractDay1 {
 
-    protected function resolve(Solution $solution, array $data): int {
+    protected function resolve(Solution $solution,
+                               array    $data,
+    ): int {
         $distancesList = [];
         $leftList      = $data[self::LEFT_LIST];
         $rightList     = $data[self::RIGHT_LIST];
@@ -21,6 +23,7 @@ class Day1Part1 extends AbstractDay1 {
             $distance        = abs($leftList[$i] - $rightList[$i]);
             $distancesList[] = $distance;
 //            echo "<div>" . $leftList[$i] . " - " . $rightList[$i] . " = $distance</div>";
+            $solution->setCalculation($i, "$leftList[$i]  -  $rightList[$i]  = $distance");
         }
 
         return array_sum($distancesList);

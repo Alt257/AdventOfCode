@@ -19,21 +19,16 @@ abstract class AbstractDay {
 
     private static ?Environment $twigEnvironement = null;
 
-    protected Solution $testSolution;
-    protected Solution $solution;
+    /**
+     * @Template array<Solution>
+     */
+    protected array $solutions;
 
-    protected function __construct(private readonly int  $year,
-                                   private readonly int  $day,
-                                   private readonly ?int $part = null,
-    ) {
-        $this->testSolution = new Solution();
-        $this->solution     = new Solution();
-
-        $this->testSolution->setInputLabel('');
-        $this->testSolution->setCalculationLabel('');
-        $this->solution->setInputLabel('');
-        $this->solution->setCalculationLabel('');
-    }
+    protected function __construct(private readonly int     $year,
+                                   private readonly int     $day,
+                                   private readonly ?int    $part = null,
+                                   private readonly ?string $calculationLabel = null,
+    ) {}
 
     /**
      * @return Environment
@@ -55,27 +50,32 @@ abstract class AbstractDay {
     public function run(): void {
 
         $reader      = new InputReader($this->year, $this->day);
-        $rawData     = $reader->loadInput();
         $rawTestData = $reader->loadTestInput();
+        $rawData     = $reader->loadInput();
 
-//        var_dump($rawTestData);
-//        echo "<div>" . $reader->loadTask() . "</div>";
+        $this->addSolution('Test data', $rawTestData);
+        $this->addSolution('Input', $rawData);
 
-        $testData = $this->getData($rawTestData);
-        $data     = $this->getData($rawData);
-//        var_dump($testData);
-
-        $this->testSolution->setResult($this->resolve($this->testSolution, $testData));
-        $this->solution->setResult($this->resolve($this->solution, $data));
+        foreach($this->solutions as $solution) {
+            $result = $this->resolve($solution, $solution->getData());
+            $solution->setResult($result);
+        }
 
         try {
-            $this->render(['testSolution' => $this->testSolution,
-                           'solution'     => $this->solution,
-                          ]);
+            $this->render(['solutions' => $this->solutions]);
         }
         catch(Exception $e) {
             echo '<div style="color: red; font-weight: bold; font-size: xx-large;">Erreur dans le toasteur !</div>' . $e->getMessage();
         }
+    }
+
+    protected function addSolution(string $solutionName,
+                                   array  $rawData,
+    ): Solution {
+        $data              = $this->getData($rawData);
+        $solution          = new Solution($solutionName, $data, $this->calculationLabel);
+        $this->solutions[] = $solution;
+        return $solution;
     }
 
 //    protected function printResult(string $answer, bool $istest = false) {
@@ -83,7 +83,9 @@ abstract class AbstractDay {
 //        echo "<div style='margin-bottom: 2em;'><strong>Réponse : $answer</strong></div>";
 //    }
 
-    protected abstract function resolve(Solution $solution, array $data): int;
+    protected abstract function resolve(Solution $solution,
+                                        array    $data,
+    ): int;
 
     protected abstract function getData(array $rawData): array;
 

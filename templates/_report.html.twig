@@ -1,19 +1,52 @@
 <div class="report">
 
     <div class="report__header">
-        <div class="report__title">{{ reportTitle }}</div>
-        <div class="report__label report__label--input">{{ report.inputLabel|raw }}</div>
-        <div class="report__label report__label--calculation">{{ report.calculationLabel|raw }}</div>
+        <div class="report__title">{{ solution.name }}</div>
     </div>
 
-    <div class="report__body">
-        {% for row in report.data %}
-            <div class="report__row report__row--input">{{ row.input|raw }}</div>
-            <div class="report__row report__row--calculation">{{ row.calculation|raw }}</div>
+    {% set dataColumns = solution.data|keys %}
+    {% set firstColumn = dataColumns|first %}
+    {% set gridColumnCount = dataColumns|length + 1 %}
+
+    <div class="report__body" style="grid-template-columns: repeat({{ gridColumnCount }}, auto) ">
+
+        {% for columnName in solution.dataLabels %}
+            <div class="report__label report__label--input">{{ columnName }}</div>
         {% endfor %}
+
+        <div class="report__label report__label--calculation">{{ solution.calculationLabel }}</div>
+
+
+        {% set dataRowCount = solution.data.(firstColumn)|length %}
+        {% set row = 0 %}
+        {% for row in 0..dataRowCount %}
+            {#            <div class="report__row"> #}
+
+            {% for column in dataColumns %}
+                <div class="report__column report__column--input">
+
+                    {% if solution.data.(column).(row) is iterable %}
+                        {% for i, element in solution.data.(column).(row) %}
+                            {#                            <span style="">{{ element }}</span> #}
+                            <span style="{{ solution.dataStyle(column, row, i) }}">{{ element }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span style="">{{ solution.data.(column).(row) }}</span>
+                        <span style="{{ solution.dataStyle(column, row) }}">{{ solution.data.(column).(row) }}</span>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+
+            <div class=" report__column report__column--calculation
+        ">{{ solution.calculation(row)|raw }}</div>
+
+            {#            </div> #}
+        {% endfor %}
+
     </div>
 
     <div class="report__footer">
-        <div class="report__result">Solution : {{ report.result }}</div>
+        <div class="report__result">Solution : {{ solution.result }}</div>
     </div>
 </div>

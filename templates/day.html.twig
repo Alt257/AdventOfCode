@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title }}</title>
 
+    {#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> #}
     <link rel="stylesheet" type="text/css" href="/assets/day.css">
     <link rel="stylesheet" type="text/css" href="/assets/report.css">
 </head>
@@ -13,18 +14,13 @@
 
     <h1><strong>{{ title }}</strong></h1>
 
-    {{ include('_report.html.twig', {
-        'reportTitle':  'Test Input',
-        'report':       testSolution,
-        'test':         'true',
-    }) }}
+    {% for solution in solutions %}
 
+        {{ include('_report.html.twig', {
+            'solution':       solution,
+        }) }}
 
-    {{ include('_report.html.twig', {
-        'reportTitle':  'Input',
-        'report':       solution,
-    }) }}
-
+    {% endfor %}
 
 </body>
 </html>

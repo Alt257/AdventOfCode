@@ -8,8 +8,8 @@ require_once '..\AbstractDay2024.php';
 
 abstract class AbstractDay1 extends AbstractDay2024 {
 
-    protected const LEFT_LIST  = 'LEFT_LIST';
-    protected const RIGHT_LIST = 'RIGHT_LIST';
+    protected const LEFT_LIST  = 'Left List';
+    protected const RIGHT_LIST = 'Right List';
 
     public function __construct(?int $part) {
         parent::__construct(1, $part);

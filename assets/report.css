@@ -3,19 +3,22 @@
     margin-bottom: 1em;
     border: 1px solid;
     display: grid;
+    /*grid-template-areas:*/
+    /*    "title          title"*/
+    /*    "label-input    label-calculation"*/
+    /*    "input          calculation"*/
+    /*    "result         result";*/
     grid-template-areas:
             "report__header"
             "report__body"
             "report__footer";
 
     .report__header {
-        border: 1px solid;
         grid-area: report__header;
-        display: grid;
-        grid-column-gap: 4em;
-        grid-template-areas:
-            "title          title"
-            "label_input    label_calculation";
+        border: 1px solid;
+        /*display: grid;*/
+        /*grid-template-areas:    "title          title"*/
+        /*                        "label_input    label_calculation";*/
 
         .report__title {
             grid-area: title;
@@ -27,19 +30,6 @@
             margin: 0;
         }
 
-        .report__label {
-            text-align: left;
-            font-weight: bold;
-            padding: 0.4em 0.6em;
-        }
-
-        .report__label--input {
-            grid-area: label_input;
-        }
-
-        .report__label--calculation {
-            grid-area: label_calculation;
-        }
     }
 
 
@@ -47,23 +37,51 @@
         grid-area: report__body;
         max-height: 24em;
         overflow: auto;
-        padding: 0.8em;
+        padding-inline: 0.8em;
         display: grid;
         grid-column-gap: 4em;
-        grid-template-areas:
-            "input  calculation";
+        /*grid-template-areas:*/
+        /*    "label-input    label-calculation"*/
+        /*    "input          calculation";*/
+
+        .report__label {
+            text-align: left;
+            font-weight: bold;
+            padding-top: 0.4em;
+            padding-inline: 0.6em;
+            padding-bottom: 0.6em;
+            position: sticky;
+            top: 0;
+            background-color: white;
+        }
+
+        .report__label--input {
+            /*grid-area: label-input;*/
+        }
+
+        .report__label--calculation {
+            /*grid-area: label-calculation;*/
+        }
 
         span {
-            padding-inline: 0.3em;
+            padding-inline: 0.2em;
         }
 
-        .row__input {
-            grid-area: input;
+        /*.report__row {*/
+        /*    display: flex;*/
+
+        .report__column {
+            padding-inline: 0.6em;
         }
 
-        .row__calculation {
-            grid-area: calculation;
+        .report__column--input {
+            /*grid-area: input;*/
         }
+
+        .report__column--calculation {
+            /*grid-area: calculation;*/
+        }
+
     }
 
     .report__footer {
@@ -75,6 +93,7 @@
             font-weight: bold;
             padding: 0.4em 0.6em;
         }
+
     }
 
 }

@@ -2,27 +2,89 @@
 
 namespace AOC\Entity;
 
-require_once 'SolutionRow.php';
-
 class Solution {
 
-    private string $name;
-    private string $inputLabel;
-    private string $calculationLabel;
-    private array  $data = [];
-    private int    $result;
+    private array $dataStyles   = [];
+    private array $calculations = [];
+    private int   $result;
 
     /**
-     * @return array<SolutionRow>
+     * @param string $name
+     * @param array  $data
+     */
+    public function __construct(private string         $name,
+                                private readonly array $data,
+                                private ?string        $calculationLabel = null,
+    ) {
+        $this->calculationLabel ??= 'Calculation';
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataStyles(): array {
+        return $this->dataStyles;
+    }
+
+    /**
+     * @param array $dataStyles
+     *
+     * @return Solution
+     */
+    public function setDataStyles(array $dataStyles): Solution {
+        $this->dataStyles = $dataStyles;
+        return $this;
+    }
+
+    public function getDataStyle(string $column,
+                                 int    $row,
+                                 ?int   $index = null,
+    ): string {
+        if($index !== null) return $this->dataStyles[$column][$row][$index] ?? '';
+        else                return $this->dataStyles[$column][$row] ?? '';
+    }
+
+    public function setDataStyle(array  $styleMap,
+                                 string $column,
+                                 int    $row,
+                                 ?int   $index = null,
+    ): self {
+        $style = '';
+
+        foreach($styleMap as $attribute => $value) {
+            $style .= "$attribute: $value; ";
+        }
+
+        if($index) $this->dataStyles[$column][$row][$index] = $style;
+        else       $this->dataStyles[$column][$row] = $style;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCalculationLabel(): ?string {
+        return $this->calculationLabel;
+    }
+
+    public function setCalculationLabel(string $calculationLabel): self {
+        $this->calculationLabel = $calculationLabel;
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDataLabels(): array {
+        return array_keys($this->data);
+    }
+
+    /**
+     * @return array
      */
     public function getData(): array {
         return $this->data;
-    }
-
-    public function addData(string $input, string $calculation): Solution {
-        $this->data[] = (new SolutionRow())->setInput($input)
-                                           ->setCalculation($calculation);
-        return $this;
     }
 
     /**
@@ -43,37 +105,25 @@ class Solution {
     }
 
     /**
-     * @return string
-     */
-    public function getInputLabel(): string {
-        return $this->inputLabel;
-    }
-
-    /**
-     * @param string $inputLabel
+     * @param int    $row
+     * @param string $calculation
      *
-     * @return Solution
+     * @return $this
      */
-    public function setInputLabel(string $inputLabel): Solution {
-        $this->inputLabel = $inputLabel;
+    public function setCalculation(int    $row,
+                                   string $calculation,
+    ): Solution {
+        $this->calculations[$row] = $calculation;
         return $this;
     }
 
     /**
+     * @param int $row
+     *
      * @return string
      */
-    public function getCalculationLabel(): string {
-        return $this->calculationLabel;
-    }
-
-    /**
-     * @param string $calculationLabel
-     *
-     * @return Solution
-     */
-    public function setCalculationLabel(string $calculationLabel): Solution {
-        $this->calculationLabel = $calculationLabel;
-        return $this;
+    public function getCalculation(int $row): string {
+        return $this->calculations[$row] ?? '';
     }
 
     /**

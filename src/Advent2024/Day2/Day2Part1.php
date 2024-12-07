@@ -11,18 +11,20 @@ class Day2Part1 extends AbstractDay2 {
 
     function __construct() {
         parent::__construct(1);
+        $this->addSolution('Custom', [
+            '1 2 3 4',
+            '412 245 313',
+            '5 7 9 11 13 15 19',
+        ]);
     }
 
-    protected function resolve(Solution $solution, array $data): int {
-        $solution->setInputLabel('Report')
-                 ->setCalculationLabel('Security');
-
+    protected function resolve(Solution $solution,
+                               array    $data,
+    ): int {
         $safeReportsCounter = 0;
 
-        foreach($data as $report) {
+        foreach($data['Report'] as $reportNumber => $report) {
             $isSafe = true;
-
-            $input = $this->style($report[0]);
 
             $ascending = $report[1] > $report[0];
             $min       = $ascending ? self::MIN_DIFF_LEVEL : -self::MAX_DIFF_LEVEL;
@@ -33,11 +35,8 @@ class Day2Part1 extends AbstractDay2 {
                 $levelDiff = $report[$i] - $report[$i - 1];
 
                 if($levelDiff < $min || $levelDiff > $max) {
-                    $input  .= $this->style($report[$i], ['color' => 'red']);
+                    $solution->setDataStyle(self::CSS_UNSAFE, 'Report', $reportNumber, $i);
                     $isSafe = false;
-                }
-                else {
-                    $input .= $this->style($report[$i]);
                 }
                 $i++;
             } while($i < sizeof($report));
@@ -46,7 +45,7 @@ class Day2Part1 extends AbstractDay2 {
                 . ($isSafe ? $this->style('SAFE', ['color' => 'green'])
                     : $this->style('UNSAFE', ['color' => 'red']))
                 . ']';
-            $solution->addData($input, $calculation);
+            $solution->setCalculation($reportNumber, $calculation);
 
             $safeReportsCounter += $isSafe ? 1 : 0;
         }
