@@ -35,7 +35,7 @@ class Day2Part1 extends AbstractDay2 {
                 $levelDiff = $report[$i] - $report[$i - 1];
 
                 if($levelDiff < $min || $levelDiff > $max) {
-                    $solution->setDataStyle(self::CSS_UNSAFE, 'Report', $reportNumber, $i);
+                    $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
                     $isSafe = false;
                 }
                 $i++;

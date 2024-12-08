@@ -11,11 +11,23 @@ abstract class AbstractDay2 extends AbstractDay2024 {
     protected const  MIN_DIFF_LEVEL = 1;
     protected const  MAX_DIFF_LEVEL = 3;
 
-    protected const CSS_UNSAFE = [
+    protected const CSS_UNSAFE_DATA = [
         'font-weight'      => 'bold',
         'color'            => 'white',
         'background-color' => 'red',
         'border-radius'    => '5px',
+    ];
+    protected const PRINT_SAFE      = [
+        'text' => 'SAFE',
+        'css'  => [
+            'color' => 'green',
+        ],
+    ];
+    protected const PRINT_UNSAFE    = [
+        'text' => 'UNSAFE',
+        'css'  => [
+            'color' => 'red',
+        ],
     ];
 
     public function __construct(?int $part = null) {

@@ -89,9 +89,18 @@ abstract class AbstractDay {
 
     protected abstract function getData(array $rawData): array;
 
-    protected function style(string $text,
-                             array  $styleAttributes = [],
-    ): string {
+    /** Returns a htlm dom element representing the formated text
+     *
+     * @param array $content associative array with
+     *                       mandatory key 'text' => string
+     *                       and optional key 'css' => array<string, string> of css attribute => value
+     *
+     * @return string
+     */
+    protected function style(array $content): string {
+        $text            = $content['text'];
+        $styleAttributes = $content['css'] ?? [];
+
         $spanStyle = '';
 
         foreach($styleAttributes as $attribute => $value) {

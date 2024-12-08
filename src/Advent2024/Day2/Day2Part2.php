@@ -9,7 +9,7 @@ require_once '../AbstractDay2024.php';
 
 class Day2Part2 extends AbstractDay2 {
 
-    protected const CSS_RED_NOSED = [
+    protected const CSS_RED_NOSED_DATA = [
         'font-weight'      => 'bold',
         'color'            => 'white',
         'background-color' => 'blue',
@@ -17,12 +17,12 @@ class Day2Part2 extends AbstractDay2 {
     ];
 
     function __construct() {
-        parent::__construct(1);
-//        $this->addSolution('Custom', [
-//            '1 2 3 4',
-//            '412 245 313',
-//            '5 7 9 11 13 15 19',
-//        ]);
+        parent::__construct(2);
+        $this->addSolution('Custom', [
+            '1 2 3 4',
+            '412 245 313',
+            '5 7 9 11 13 15 19',
+        ]);
     }
 
     protected function resolve(Solution $solution,
@@ -47,7 +47,7 @@ class Day2Part2 extends AbstractDay2 {
                 }
                 if($redNosedSafety > 0 && array_key_exists($i - 1, $report)) {
                     $redNosedSafety--;
-                    $solution->setDataStyle(self::CSS_RED_NOSED, 'Report', $reportNumber, $i + 1);
+                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i + 1);
 
                     $levelDiff = $report[$i - 1] - $report[$i + 1];
                     if($this->isSafe($levelDiff, $min, $max)) {
@@ -55,14 +55,16 @@ class Day2Part2 extends AbstractDay2 {
                     }
                 }
 
-                $solution->setDataStyle(self::CSS_UNSAFE, 'Report', $reportNumber, $i + 1);
+                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i + 1);
                 $isSafe = false;
             }
 
+            //@formatter:off
             $calculation = '['
-                . ($isSafe ? $this->style('SAFE', ['color' => 'green'])
-                    : $this->style('UNSAFE', ['color' => 'red']))
-                . ']';
+                         . ($isSafe ? $this->style(self::PRINT_SAFE)
+                                    : $this->style(self::PRINT_UNSAFE))
+                         . ']';
+            //@formatter:on
             $solution->setCalculation($reportNumber, $calculation);
 
             $safeReportsCounter += $isSafe ? 1 : 0;
