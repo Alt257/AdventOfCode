@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.page {
+    display: grid;
+    grid-template-areas:
+        "title"
+        "content"
+        "footer";
+
+    .page__titles {
+        grid-area: title;
+        padding-inline: 0.7em;
+    }
+
+    .page__content {
+        grid-area: content;
+        padding-inline: 0.7em;
+
+    }
+
+    .page__footer {
+        grid-area: footer;
+        position: sticky;
+        bottom: 0;
+        padding: 0.7em;
+        color: white;
+        background-image: linear-gradient(forestgreen, darkgreen);
+        display: grid;
+
+        .result {
+            grid-row: 1;
+            grid-column: auto;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+    }
+}

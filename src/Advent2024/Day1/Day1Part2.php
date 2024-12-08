@@ -8,6 +8,9 @@ require_once 'AbstractDay1.php';
 
 class Day1Part2 extends AbstractDay1 {
 
+    function __construct() {
+        parent::__construct(2);
+    }
 
     protected function resolve(Solution $solution,
                                array    $data,
@@ -33,4 +36,4 @@ class Day1Part2 extends AbstractDay1 {
 
 }
 
-(new Day1Part2(2))->run();
+(new Day1Part2())->run();

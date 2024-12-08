@@ -27,11 +27,9 @@
 
                     {% if solution.data.(column).(row) is iterable %}
                         {% for i, element in solution.data.(column).(row) %}
-                            {#                            <span style="">{{ element }}</span> #}
                             <span style="{{ solution.dataStyle(column, row, i) }}">{{ element }}</span>
                         {% endfor %}
                     {% else %}
-                        <span style="">{{ solution.data.(column).(row) }}</span>
                         <span style="{{ solution.dataStyle(column, row) }}">{{ solution.data.(column).(row) }}</span>
                     {% endif %}
 

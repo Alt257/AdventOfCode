@@ -15,7 +15,7 @@
 
     .report__header {
         grid-area: report__header;
-        border: 1px solid;
+        border-bottom: 1px solid;
         /*display: grid;*/
         /*grid-template-areas:    "title          title"*/
         /*                        "label_input    label_calculation";*/
@@ -45,6 +45,8 @@
         /*    "input          calculation";*/
 
         .report__label {
+            border-bottom: 1px solid;
+            margin-bottom: 0.6em;
             text-align: left;
             font-weight: bold;
             padding-top: 0.4em;
@@ -86,7 +88,7 @@
 
     .report__footer {
         grid-area: report__footer;
-        border: 1px solid;
+        border-top: 1px solid;
 
         .report__result {
             grid-area: result;

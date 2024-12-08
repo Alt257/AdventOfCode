@@ -111,6 +111,9 @@ abstract class AbstractDay {
      */
     private function render(array $data = []): void {
         $data['title'] = "Advent Of Code $this->year - Day $this->day" . ($this->part === null ? '' : " - Part $this->part");
+        $data['year']  = $this->year;
+        $data['day']   = $this->day;
+        $data['part']  = $this->part;
         echo self::twig()->render('day.html.twig', $data);
     }
 

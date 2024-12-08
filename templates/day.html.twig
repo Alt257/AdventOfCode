@@ -10,17 +10,29 @@
     <link rel="stylesheet" type="text/css" href="/assets/day.css">
     <link rel="stylesheet" type="text/css" href="/assets/report.css">
 </head>
-<body>
 
-    <h1><strong>{{ title }}</strong></h1>
+<body class="page">
 
-    {% for solution in solutions %}
+    <div class="page__titles">
+        <h1>Advent Of Code {{ year }}</h1>
+        <h2>Day {{ day }} - Part {{ part }}</h2>
+    </div>
 
-        {{ include('_report.html.twig', {
-            'solution':       solution,
-        }) }}
+    <div class="page__content">
+        {% for solution in solutions %}
 
-    {% endfor %}
+            {{ include('_report.html.twig', {
+                'solution':       solution,
+            }) }}
+
+        {% endfor %}
+    </div>
+
+    <div class="page__footer">
+        {% for solution in solutions %}
+            <div class="result">{{ solution.name }} : {{ solution.result }}</div>
+        {% endfor %}
+    </div>
 
 </body>
 </html>
