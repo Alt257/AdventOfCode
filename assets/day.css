@@ -13,6 +13,12 @@ body {
     .page__titles {
         grid-area: title;
         padding-inline: 0.7em;
+        background-color: white;
+        z-index: 1;
+        position: sticky;
+        top: 0;
+        border-bottom: 1px solid black;
+        margin-bottom: 1em;
     }
 
     .page__content {
