@@ -19,9 +19,12 @@ class Day2Part2 extends AbstractDay2 {
     function __construct() {
         parent::__construct(2);
         $this->addSolution('Custom', [
-            '1 2 3 4',
-            '412 245 313',
+            '1 2 3 4 3 5 6 7',
+            '1 2 3 4 3 4 6 7',
+            '19 7 6 4 3 1',
             '5 7 9 11 13 15 19',
+            '5 7 9 11 13 15 15',
+            '5 7 9 11 13 13 19',
         ]);
     }
 
@@ -34,28 +37,37 @@ class Day2Part2 extends AbstractDay2 {
             $isSafe         = true;
             $redNosedSafety = 1;
 
-            $ascending = $report[0] > $report[1];
+            $ascending = $report[0] < $report[1];
             $min       = $ascending ? self::MIN_DIFF_LEVEL : -self::MAX_DIFF_LEVEL;
             $max       = $ascending ? self::MAX_DIFF_LEVEL : -self::MIN_DIFF_LEVEL;
 
 
-            for($i = 0; $i < sizeof($report) - 1; $i++) {
-                $levelDiff = $report[$i] - $report[$i + 1];
-
+            for($i = 1; $i < sizeof($report); $i++) {
+                $levelDiff = $report[$i] - $report[$i - 1];
+                // SAFE
                 if($this->isSafe($levelDiff, $min, $max)) {
                     continue;
                 }
-                if($redNosedSafety > 0 && array_key_exists($i - 1, $report)) {
+                // RED NOSED SECURITY
+                if($redNosedSafety > 0) {
                     $redNosedSafety--;
-                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i + 1);
+                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
 
-                    $levelDiff = $report[$i - 1] - $report[$i + 1];
-                    if($this->isSafe($levelDiff, $min, $max)) {
+                    // i + 1 exist
+                    if(array_key_exists($i + 1, $report)) {
+                        $i++;
+                        $levelDiff = $report[$i] - $report[$i - 2];
+
+                        if($this->isSafe($levelDiff, $min, $max)) {
+                            continue;
+                        }
+                    }
+                    else {
                         continue;
                     }
                 }
-
-                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i + 1);
+                // UNSAFE
+                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
                 $isSafe = false;
             }
 
