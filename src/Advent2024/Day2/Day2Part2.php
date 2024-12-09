@@ -22,6 +22,8 @@ class Day2Part2 extends AbstractDay2 {
             '1 2 3 4 3 5 6 7',
             '1 2 3 4 3 4 6 7',
             '19 7 6 4 3 1',
+            '19 7',
+            '9 7 8 6 5 4 3 2 1',
             '5 7 9 11 13 15 19',
             '5 7 9 11 13 15 15',
             '5 7 9 11 13 13 19',
@@ -51,23 +53,30 @@ class Day2Part2 extends AbstractDay2 {
                 // RED NOSED SECURITY
                 if($redNosedSafety > 0) {
                     $redNosedSafety--;
-                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
 
+                    // i + 1 don't exist
+                    if(!array_key_exists($i + 1, $report)) {
+                        $solution->setDataStyle(self::CSS_RED_NOSED_DATA, $reportNumber, $i, 'Report');
+                        continue;
+                    }
                     // i + 1 exist
-                    if(array_key_exists($i + 1, $report)) {
-                        $i++;
-                        $levelDiff = $report[$i] - $report[$i - 2];
+                    $i++;
+                    $levelDiff = $report[$i] - $report[$i - 2];
+                    if($this->isSafe($levelDiff, $min, $max)) {
+                        $solution->setDataStyle(self::CSS_RED_NOSED_DATA, $reportNumber, $i - 1, 'Report');
+                        continue;
+                    }
 
+                    if($i - 2 == 0) {
+                        $solution->setDataStyle(self::CSS_RED_NOSED_DATA, $reportNumber, 0, 'Report');
+                        $levelDiff = $report[$i] - $report[$i - 1];
                         if($this->isSafe($levelDiff, $min, $max)) {
                             continue;
                         }
                     }
-                    else {
-                        continue;
-                    }
                 }
                 // UNSAFE
-                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
+                $solution->setDataStyle(self::CSS_UNSAFE_DATA, $reportNumber, $i, 'Report');
                 $isSafe = false;
             }
 

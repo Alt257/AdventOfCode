@@ -44,10 +44,10 @@ class Solution {
         else                return $this->dataStyles[$column][$row] ?? '';
     }
 
-    public function setDataStyle(array  $styleMap,
-                                 string $column,
-                                 int    $row,
-                                 ?int   $index = null,
+    public function setDataStyle(array   $styleMap,
+                                 int     $row,
+                                 ?int    $index = null,
+                                 ?string $column = null,
     ): self {
         $style = '';
 
@@ -55,8 +55,12 @@ class Solution {
             $style .= "$attribute: $value; ";
         }
 
-        if($index) $this->dataStyles[$column][$row][$index] = $style;
-        else       $this->dataStyles[$column][$row] = $style;
+        // @formatter:off
+        if      ($column === null && $index === null)   $this->dataStyles[$row] = $style;
+        else if (                    $index === null)   $this->dataStyles[$column][$row] = $style;
+        else if ($column === null)                      $this->dataStyles[$row][$index] = $style;
+        else                                            $this->dataStyles[$column][$row][$index] = $style;
+        // @formatter:on
 
         return $this;
     }
