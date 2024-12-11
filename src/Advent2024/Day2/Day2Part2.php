@@ -93,7 +93,7 @@ class Day2Part2 extends AbstractDay2 {
         'background-color' => 'blue',
         'border-radius'    => '5px',
     ];
-    protected const COLOR_PROBLEM_DAMPENER = 'blue';
+    protected const COLOR_SAFETY_ACTIVATED = 'blue';
     protected const COLOR_UNSAFE           = 'red';
 
     function __construct() {
@@ -228,7 +228,7 @@ class Day2Part2 extends AbstractDay2 {
                 if($redNosedSafety > 0) {
                     $redNosedSafety--;
 //                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
-                    $solution->highlightData(self::COLOR_PROBLEM_DAMPENER,
+                    $solution->highlightData(self::COLOR_SAFETY_ACTIVATED,
                                              'Report', $reportNumber, $i,
                     );
 
