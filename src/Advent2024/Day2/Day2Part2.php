@@ -99,6 +99,11 @@ class Day2Part2 extends AbstractDay2 {
     function __construct() {
         parent::__construct(2);
         $this->addSolution('Custom', [
+            '5 6 4 7 3 2 8 1',
+            '4 5 6 7',
+            '40 5 6 7',
+            '4 50 6 7',
+            '4 5 60 7',
             '1 2 3 4 3 5 6 7',
             '1 2 3 4 3 4 6 7',
             '19 7 6 4 3 1',
@@ -110,6 +115,7 @@ class Day2Part2 extends AbstractDay2 {
             '5 7 9 11 13 13 9 19 21',
             '5 7 9 11 13 9 19 21',
             '20 21 20 19 18 17',
+            '21 20 19 18 17 22',
         ]);
     }
 
@@ -166,60 +172,29 @@ class Day2Part2 extends AbstractDay2 {
             
             /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-            /*
-                        if($this->isSafe($report[0], $report[1])) {
-
-                            if(array_key_exists(2, $report)) {
-                                $isAscending = $report[0] < $report[1];
-
-                                if(!$this->isSafe($report[1], $report[2], $isAscending)) {
-                                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA,
-                                                            'Report',
-                                                            $reportNumber,
-                                                            1,
-                                    );
-
-                                    if($this->isSafe($report[0], $report[2])) {
-                                        $isAscending = $report[0] < $report[2];
-                                    }
-                                    else {
-                                        $isSafe = false;
-                                        $solution->setDataStyle(self::CSS_UNSAFE_DATA,
-                                                                'Report',
-                                                                $reportNumber,
-                                                                2,
-                                        );
-                                    }
-                                }
-                            }
-                        }
-                        else {
-                            $redNosedSafety--;
-                            $solution->setDataStyle(self::CSS_RED_NOSED_DATA,
-                                                    'Report',
-                                                    $reportNumber,
-                                                    1,
-                            );
-
-                            if(array_key_exists(2, $report)) {
-
-                                if($this->isSafe($report[0], $report[2])) {
-                                    $isAscending = $report[0] < $report[2];
-                                }
-                                else {
-                                    $isSafe = false;
-                                    $solution->setDataStyle(self::CSS_UNSAFE_DATA,
-                                                            'Report',
-                                                            $reportNumber,
-                                                            2,
-                                    );
-                                }
-                            }
-                        }
-            */
-            $isAscending = $report[0] < $report[1];
+            $countASC  = 0;
+            $countDESC = 0;
 
             for($i = 1; $i < sizeof($report); $i++) {
+                if($report[$i - 1] < $report[$i]) $countASC++;
+                else                              $countDESC++;
+            }
+
+            $isAscending = $countASC >= $countDESC;
+
+            $i = 1;
+            if(!$this->isSafe($report[0], $report[1], $isAscending)
+                && array_key_exists(2, $report)
+                && $this->isSafe($report[1], $report[2], $isAscending)
+            ) {
+                $redNosedSafety--;
+                $solution->highlightData(self::COLOR_SAFETY_ACTIVATED,
+                                         self::COLUMN_REPORT, $reportNumber, 0,
+                );
+                $i++;
+            }
+
+            for(; $i < sizeof($report); $i++) {
                 // SAFE
                 if($this->isSafe($report[$i - 1], $report[$i], $isAscending)) {
                     continue;
@@ -237,12 +212,10 @@ class Day2Part2 extends AbstractDay2 {
                         continue;
                     }
                     // i + 1 exists
-                    if($this->isSafe($report[$i - 1] - $report[$i + 1], $isAscending)) {
-                        $i++;
+                    $i++;
+                    if($this->isSafe($report[$i - 2], $report[$i], $isAscending)) {
                         continue;
                     }
-                    $i++;
-
                 }
                 // UNSAFE
 //                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
