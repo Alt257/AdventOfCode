@@ -87,12 +87,14 @@ class SafetyChecker {
 
 class Day2Part2 extends AbstractDay2 {
 
-    protected const CSS_RED_NOSED_DATA = [
+    protected const CSS_RED_NOSED_DATA     = [
         'font-weight'      => 'bold',
         'color'            => 'white',
         'background-color' => 'blue',
         'border-radius'    => '5px',
     ];
+    protected const COLOR_PROBLEM_DAMPENER = 'blue';
+    protected const COLOR_UNSAFE           = 'red';
 
     function __construct() {
         parent::__construct(2);
@@ -225,7 +227,10 @@ class Day2Part2 extends AbstractDay2 {
                 // RED NOSED SECURITY
                 if($redNosedSafety > 0) {
                     $redNosedSafety--;
-                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
+//                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
+                    $solution->highlightData(self::COLOR_PROBLEM_DAMPENER,
+                                             'Report', $reportNumber, $i,
+                    );
 
                     // i + 1 doesn't exist
                     if(!array_key_exists($i + 1, $report)) {
@@ -240,7 +245,10 @@ class Day2Part2 extends AbstractDay2 {
 
                 }
                 // UNSAFE
-                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
+//                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
+                $solution->highlightData(self::COLOR_UNSAFE,
+                                         'Report', $reportNumber, $i,
+                );
                 $isSafe = false;
             }
 
