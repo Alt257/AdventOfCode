@@ -11,6 +11,8 @@ abstract class AbstractDay2 extends AbstractDay2024 {
     protected const  MIN_LEVEL_DIFF = 1;
     protected const  MAX_LEVEL_DIFF = 3;
 
+    protected const COLUMN_REPORT = 'Report';
+
     protected const CSS_UNSAFE_DATA = [
         'font-weight'      => 'bold',
         'color'            => 'white',
@@ -43,7 +45,7 @@ abstract class AbstractDay2 extends AbstractDay2024 {
             $reportList[] = $report;
         }
 
-        return ['Report' => $reportList];
+        return [self::COLUMN_REPORT => $reportList];
     }
 
 }

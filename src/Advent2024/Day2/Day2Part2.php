@@ -229,7 +229,7 @@ class Day2Part2 extends AbstractDay2 {
                     $redNosedSafety--;
 //                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
                     $solution->highlightData(self::COLOR_SAFETY_ACTIVATED,
-                                             'Report', $reportNumber, $i,
+                                             self::COLUMN_REPORT, $reportNumber, $i,
                     );
 
                     // i + 1 doesn't exist
@@ -247,7 +247,7 @@ class Day2Part2 extends AbstractDay2 {
                 // UNSAFE
 //                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
                 $solution->highlightData(self::COLOR_UNSAFE,
-                                         'Report', $reportNumber, $i,
+                                         self::COLUMN_REPORT, $reportNumber, $i,
                 );
                 $isSafe = false;
             }
