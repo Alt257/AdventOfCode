@@ -8,8 +8,8 @@ require_once '..\AbstractDay2024.php';
 
 abstract class AbstractDay2 extends AbstractDay2024 {
 
-    protected const  MIN_DIFF_LEVEL = 1;
-    protected const  MAX_DIFF_LEVEL = 3;
+    protected const  MIN_LEVEL_DIFF = 1;
+    protected const  MAX_LEVEL_DIFF = 3;
 
     protected const CSS_UNSAFE_DATA = [
         'font-weight'      => 'bold',
@@ -17,13 +17,13 @@ abstract class AbstractDay2 extends AbstractDay2024 {
         'background-color' => 'red',
         'border-radius'    => '5px',
     ];
-    protected const PRINT_SAFE      = [
+    protected const SAFE            = [
         'text' => 'SAFE',
         'css'  => [
             'color' => 'green',
         ],
     ];
-    protected const PRINT_UNSAFE    = [
+    protected const UNSAFE          = [
         'text' => 'UNSAFE',
         'css'  => [
             'color' => 'red',

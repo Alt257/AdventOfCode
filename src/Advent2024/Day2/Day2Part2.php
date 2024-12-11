@@ -3,9 +3,87 @@
 namespace AOC\Advent2024\Day2;
 
 use AOC\Entity\Solution;
+use http\Exception\UnexpectedValueException;
 
 require_once 'AbstractDay2.php';
-require_once '../AbstractDay2024.php';
+
+class SafetyChecker {
+
+    private bool $initialized = false;
+    private bool $ascending   = true;
+    private int  $min;
+    private int  $max;
+    private int  $reverseMin;
+    private int  $reverseMax;
+
+    function __construct(
+        private int $absMin,
+        private int $absMax,
+    ) {}
+
+    public function isSafe(int  $first,
+                           int  $second,
+                           bool $resetOrder = false,
+    ) {
+        $diff = $second - $first;
+
+        if($resetOrder) {
+            $this->resetOrder();
+        }
+
+        if(!$this->initialized) {
+            if($diff == 0) {
+                $this->initialized = false;
+                return $this->absMin == 0;
+            }
+            else {
+                $this->setAscending($diff > 0);
+            }
+        }
+
+        return ($diff >= $this->min) && ($diff <= $this->max);
+    }
+
+    public function isSafeInReverseOrder(int $first,
+                                         int $second,
+    ) {
+        $diff = $second - $first;
+
+        if(!$this->initialized) {
+            throw new UnexpectedValueException();
+        }
+        else {
+            return ($diff >= $this->reverseMin) && ($diff <= $this->reverseMax);
+        }
+    }
+
+    public function reverseOrder() {
+        $this->setAscending(!$this->ascending);
+    }
+
+    private function resetOrder() {
+        $this->initialized = false;
+    }
+
+    private function setAscending(bool $ascending) {
+        $this->initialized = true;
+        $this->ascending   = $ascending;
+
+        if($ascending) {
+            $this->min        = $this->absMin;
+            $this->max        = $this->absMax;
+            $this->reverseMin = -$this->absMax;
+            $this->reverseMax = -$this->absMin;
+        }
+        else {
+            $this->min        = -$this->absMax;
+            $this->max        = -$this->absMin;
+            $this->reverseMin = $this->absMin;
+            $this->reverseMax = $this->absMax;
+        }
+    }
+
+}
 
 class Day2Part2 extends AbstractDay2 {
 
@@ -42,52 +120,141 @@ class Day2Part2 extends AbstractDay2 {
             $isSafe         = true;
             $redNosedSafety = 1;
 
-            $ascending = $report[0] < $report[1];
-            $min       = $ascending ? self::MIN_DIFF_LEVEL : -self::MAX_DIFF_LEVEL;
-            $max       = $ascending ? self::MAX_DIFF_LEVEL : -self::MIN_DIFF_LEVEL;
+            /////////////////////////////////////////////////////////////////////////////////////
+            /*
+            $safetyChecker = new SafetyChecker(self::MIN_DIFF_LEVEL, self::MAX_DIFF_LEVEL);
+            
+            for($i = 1; $i < sizeof($report); $i++) {
+                $firstLoop = $i == 1;
+                
+                if(!$safetyChecker->isSafe($report[$i - 1], $report[$i])) {
+                    if($redNosedSafety) {
+                        $redNosedSafety--;
+                        
+                        if($i == (sizeof($report) - 1)) {
+                            $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
+                        }
+                        else {
+                            if($safetyChecker->isSafe($report[$i], $report[$i + 1], $firstLoop) && ($firstLoop || $safetyChecker->isSafe($report[$i - 2], $report[$i]))) {
+                                $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i - 1);
+                                $i++;
+                            }
+                            else if($safetyChecker->isSafe($report[$i - 1], $report[$i + 1], $firstLoop)) {
+                                $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
+                                $i++;
+                            }
+                            else {
+                                $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
+                                $isSafe = false;
+                            }
+                        }
+                    }
+                    else {
+                        $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
+                        $isSafe = false;
+                    }
+                }
+                else if($firstLoop && $redNosedSafety && !$safetyChecker->isSafe($report[$i], $report[$i + 1]) && $safetyChecker->isSafeInReverseOrder($report[$i], $report[$i + 1])) {
+                    $safetyChecker->reverseOrder();
+                    $redNosedSafety--;
+                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i - 1);
+                    $i++;
+                }
+            }
+            
+            /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
+            /*
+                        if($this->isSafe($report[0], $report[1])) {
+
+                            if(array_key_exists(2, $report)) {
+                                $isAscending = $report[0] < $report[1];
+
+                                if(!$this->isSafe($report[1], $report[2], $isAscending)) {
+                                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA,
+                                                            'Report',
+                                                            $reportNumber,
+                                                            1,
+                                    );
+
+                                    if($this->isSafe($report[0], $report[2])) {
+                                        $isAscending = $report[0] < $report[2];
+                                    }
+                                    else {
+                                        $isSafe = false;
+                                        $solution->setDataStyle(self::CSS_UNSAFE_DATA,
+                                                                'Report',
+                                                                $reportNumber,
+                                                                2,
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            $redNosedSafety--;
+                            $solution->setDataStyle(self::CSS_RED_NOSED_DATA,
+                                                    'Report',
+                                                    $reportNumber,
+                                                    1,
+                            );
+
+                            if(array_key_exists(2, $report)) {
+
+                                if($this->isSafe($report[0], $report[2])) {
+                                    $isAscending = $report[0] < $report[2];
+                                }
+                                else {
+                                    $isSafe = false;
+                                    $solution->setDataStyle(self::CSS_UNSAFE_DATA,
+                                                            'Report',
+                                                            $reportNumber,
+                                                            2,
+                                    );
+                                }
+                            }
+                        }
+            */
+            $isAscending = $report[0] < $report[1];
 
             for($i = 1; $i < sizeof($report); $i++) {
-                $levelDiff = $report[$i] - $report[$i - 1];
                 // SAFE
-                if($this->isSafe($levelDiff, $min, $max)) {
+                if($this->isSafe($report[$i - 1], $report[$i], $isAscending)) {
                     continue;
                 }
                 // RED NOSED SECURITY
                 if($redNosedSafety > 0) {
                     $redNosedSafety--;
+                    $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
 
                     // i + 1 doesn't exist
                     if(!array_key_exists($i + 1, $report)) {
-                        $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i);
                         continue;
                     }
                     // i + 1 exists
-                    $i++;
-                    $levelDiff = $report[$i] - $report[$i - 2];
-                    if($this->isSafe($levelDiff, $min, $max)) {
-                        $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, $i - 1);
+                    if($this->isSafe($report[$i - 1] - $report[$i + 1], $isAscending)) {
+                        $i++;
                         continue;
                     }
+                    $i++;
 
-                    if($i - 2 == 0) {
-                        $solution->setDataStyle(self::CSS_RED_NOSED_DATA, 'Report', $reportNumber, 0);
-                        $levelDiff = $report[$i] - $report[$i - 1];
-                        if($this->isSafe($levelDiff, $min, $max)) {
-                            continue;
-                        }
-                    }
                 }
                 // UNSAFE
                 $solution->setDataStyle(self::CSS_UNSAFE_DATA, 'Report', $reportNumber, $i);
                 $isSafe = false;
             }
 
+            /*======================================================*/
+
             //@formatter:off
-            $calculation = '['
-                         . ($isSafe ? $this->style(self::PRINT_SAFE)
-                                    : $this->style(self::PRINT_UNSAFE))
-                         . ']';
+            $security = '['
+                      . $this->style($isSafe ? self::SAFE : self::UNSAFE)
+                      . ']';
+            $order = $isAscending ? 'Ascending' : 'Descending';
+
+            $calculation = $this->col($security, '6em')
+                         . $this->col($order, '6em')
+            ;
             //@formatter:on
             $solution->setCalculation($reportNumber, $calculation);
 
@@ -98,10 +265,19 @@ class Day2Part2 extends AbstractDay2 {
         return $safeReportsCounter;
     }
 
-    private function isSafe(int $levelDiff,
-                            int $min,
-                            int $max,
-    ) {
+    private function isSafe(int   $level,
+                            int   $nextLevel,
+                            ?bool $ascending = null,
+    ): bool {
+        $levelDiff = $nextLevel - $level;
+
+        if($ascending === null) {
+            $ascending = true;
+            $levelDiff = abs($levelDiff);
+        }
+        $min = $ascending ? self::MIN_LEVEL_DIFF : -self::MAX_LEVEL_DIFF;
+        $max = $ascending ? self::MAX_LEVEL_DIFF : -self::MIN_LEVEL_DIFF;
+
         return $min <= $levelDiff && $levelDiff <= $max;
     }
 

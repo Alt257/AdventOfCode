@@ -82,6 +82,7 @@
 
         .report__column--calculation {
             /*grid-area: calculation;*/
+            display: grid;
         }
 
     }

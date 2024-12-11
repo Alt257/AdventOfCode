@@ -8,12 +8,14 @@ body {
     grid-template-areas:
         "title"
         "content"
-        "footer";
+        "footer"
+        "var_dump";
 
     .page__titles {
         grid-area: title;
         padding-inline: 0.7em;
-        background-color: white;
+        color: black;
+        background-image: linear-gradient(whitesmoke, orange);
         z-index: 1;
         position: sticky;
         top: 0;
@@ -42,5 +44,13 @@ body {
             font-weight: bold;
             font-size: 1.5em;
         }
+    }
+
+    .xdebug-var-dump {
+        grid-area: var_dump;
+        grid-row: auto;
+        max-width: 100%;
+        min-height: 40em;
+        overflow: auto;
     }
 }

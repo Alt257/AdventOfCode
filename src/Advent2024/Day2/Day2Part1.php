@@ -27,8 +27,8 @@ class Day2Part1 extends AbstractDay2 {
             $isSafe = true;
 
             $ascending = $report[1] > $report[0];
-            $min       = $ascending ? self::MIN_DIFF_LEVEL : -self::MAX_DIFF_LEVEL;
-            $max       = $ascending ? self::MAX_DIFF_LEVEL : -self::MIN_DIFF_LEVEL;
+            $min       = $ascending ? self::MIN_LEVEL_DIFF : -self::MAX_LEVEL_DIFF;
+            $max       = $ascending ? self::MAX_LEVEL_DIFF : -self::MIN_LEVEL_DIFF;
 
             $i = 1;
             do {

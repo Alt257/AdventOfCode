@@ -110,6 +110,21 @@ abstract class AbstractDay {
         return "<span Style='$spanStyle'>$text</span>";
     }
 
+    protected function col(string  $text,
+                           ?string $width = null,
+                           ?int    $columnNum = null,
+    ): string {
+        return $this->style([
+                                'text' => $text,
+                                'css'  => [
+                                    'grid-column'  => $columnNum ?? 'auto',
+                                    'grid-row'     => 1,
+                                    'column-width' => $width ?? 'fit-content',
+                                ],
+                            ],
+        );
+    }
+
     /**
      * @param array $data
      *
