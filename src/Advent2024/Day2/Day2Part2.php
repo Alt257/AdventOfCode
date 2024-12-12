@@ -105,7 +105,7 @@ class Day2Part2 extends AbstractDay2 {
             $order = $isAscending ? 'Ascending' : 'Descending';
 
             $calculation = $this->col($security, '6em')
-                         . $this->col($order, '6em')
+                         . $this->col($order, '4em')
             ;
             //@formatter:on
             $solution->setCalculation($reportNumber, $calculation);
