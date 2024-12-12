@@ -39,7 +39,7 @@
         overflow: auto;
         padding-inline: 0.8em;
         display: grid;
-        grid-column-gap: 4em;
+        grid-column-gap: 2em;
         /*grid-template-areas:*/
         /*    "label-input    label-calculation"*/
         /*    "input          calculation";*/
@@ -57,6 +57,10 @@
             background-color: white;
         }
 
+        .report__label--row-number {
+
+        }
+
         .report__label--input {
             /*grid-area: label-input;*/
         }
@@ -65,19 +69,24 @@
             /*grid-area: label-calculation;*/
         }
 
-        span {
-            padding-inline: 0.2em;
-        }
-
         /*.report__row {*/
         /*    display: flex;*/
 
         .report__column {
-            padding-inline: 0.6em;
+            /*padding-inline: 0.6em;*/
+        }
+
+        .report__column--row-number {
+            grid-column: 1;
+            text-align: center;
         }
 
         .report__column--input {
             /*grid-area: input;*/
+
+            span {
+                padding-inline: 0.2em;
+            }
         }
 
         .report__column--calculation {
@@ -85,6 +94,7 @@
             display: grid;
         }
 
+        /*}*/
     }
 
     .report__footer {

@@ -6,9 +6,11 @@
 
     {% set dataColumns = solution.data|keys %}
     {% set firstColumn = dataColumns|first %}
-    {% set gridColumnCount = dataColumns|length + 1 %}
+    {% set gridColumnCount = dataColumns|length + 2 %}
 
     <div class="report__body" style="grid-template-columns: repeat({{ gridColumnCount }}, auto) ">
+
+        <div class="report__label report__label--row-number">#</div>
 
         {% for columnName in solution.dataLabels %}
             <div class="report__label report__label--input">{{ columnName }}</div>
@@ -19,8 +21,9 @@
 
         {% set dataRowCount = solution.data.(firstColumn)|length %}
         {% set row = 0 %}
-        {% for row in 0..dataRowCount %}
+        {% for row in 0..dataRowCount-1 %}
             {#            <div class="report__row"> #}
+            <div class="report__column report__column--row-number">{{ row + 1 }}</div>
 
             {% for column in dataColumns %}
                 <div class="report__column report__column--input">
@@ -36,8 +39,9 @@
                 </div>
             {% endfor %}
 
-            <div class=" report__column report__column--calculation
-        ">{{ solution.calculation(row)|raw }}</div>
+            <div class=" report__column report__column--calculation">
+                {{ solution.calculation(row)|raw }}
+            </div>
 
             {#            </div> #}
         {% endfor %}

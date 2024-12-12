@@ -50,7 +50,8 @@ body {
         grid-area: var_dump;
         grid-row: auto;
         max-width: 100%;
-        min-height: 40em;
-        overflow: auto;
+        /*max-height: 40em;*/
+        /*min-height: 20em;*/
+        /*overflow-x: auto;*/
     }
 }

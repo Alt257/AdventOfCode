@@ -8,12 +8,6 @@ require_once 'AbstractDay2.php';
 
 class Day2Part2 extends AbstractDay2 {
 
-    protected const CSS_RED_NOSED_DATA     = [
-        'font-weight'      => 'bold',
-        'color'            => 'white',
-        'background-color' => 'blue',
-        'border-radius'    => '5px',
-    ];
     protected const COLOR_SAFETY_ACTIVATED = 'blue';
     protected const COLOR_UNSAFE           = 'red';
 
@@ -111,7 +105,7 @@ class Day2Part2 extends AbstractDay2 {
             $order = $isAscending ? 'Ascending' : 'Descending';
 
             $calculation = $this->col($security, '6em')
-                         . $this->col($order, '6em')
+                         . $this->col($order, '4em')
             ;
             //@formatter:on
             $solution->setCalculation($reportNumber, $calculation);
