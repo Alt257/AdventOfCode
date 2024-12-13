@@ -22,13 +22,15 @@ abstract class AbstractDay2 extends AbstractDay2024 {
     protected const SAFE            = [
         'text' => 'SAFE',
         'css'  => [
-            'color' => 'green',
+            'color'          => 'green',
+            'padding-inline' => '0.2em',
         ],
     ];
     protected const UNSAFE          = [
         'text' => 'UNSAFE',
         'css'  => [
-            'color' => 'red',
+            'color'          => 'red',
+            'padding-inline' => '0.2em',
         ],
     ];
 
