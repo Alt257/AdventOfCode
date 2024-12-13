@@ -1,8 +1,8 @@
 <?php
 
-namespace AOC\Advent2024\Day2;
+namespace Advent2024\Day2;
 
-use AOC\Entity\Solution;
+use Entity\Solution;
 
 require_once 'AbstractDay2.php';
 
@@ -15,7 +15,9 @@ class SafetyResult {
         public readonly int   $lastIndex,
     ) {}
 
-    public static function CompareByLastIndex(SafetyResult $a, SafetyResult $b): int {
+    public static function CompareByLastIndex(SafetyResult $a,
+                                              SafetyResult $b,
+    ): int {
         return $b->lastIndex - $a->lastIndex;
     }
 
@@ -37,21 +39,9 @@ class DifferenceChecker {
         return $this->ascending;
     }
 
-    private function setAscending(bool $ascending): void {
-        $this->initialized = true;
-        $this->ascending   = $ascending;
-
-        if($ascending) {
-            $this->min = $this->absMin;
-            $this->max = $this->absMax;
-        }
-        else {
-            $this->min = -$this->absMax;
-            $this->max = -$this->absMin;
-        }
-    }
-
-    public function isSafe(?int $previous, int $current): bool {
+    public function isSafe(?int $previous,
+                           int  $current,
+    ): bool {
         if($previous == null) {
             return true;
         }
@@ -68,6 +58,20 @@ class DifferenceChecker {
         }
 
         return ($diff >= $this->min) && ($diff <= $this->max);
+    }
+
+    private function setAscending(bool $ascending): void {
+        $this->initialized = true;
+        $this->ascending   = $ascending;
+
+        if($ascending) {
+            $this->min = $this->absMin;
+            $this->max = $this->absMax;
+        }
+        else {
+            $this->min = -$this->absMax;
+            $this->max = -$this->absMin;
+        }
     }
 
 }

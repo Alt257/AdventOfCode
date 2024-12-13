@@ -1,8 +1,8 @@
 <?php
 
-namespace AOC\Advent2024\Day2;
+namespace Advent2024\Day2;
 
-use AOC\Advent2024\AbstractDay2024;
+use Advent2024\AbstractDay2024;
 
 require_once '..\AbstractDay2024.php';
 

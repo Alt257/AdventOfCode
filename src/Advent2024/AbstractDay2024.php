@@ -1,10 +1,10 @@
 <?php
 
-namespace AOC\Advent2024;
+namespace Advent2024;
 
 require_once '..\..\AbstractDay.php';
 
-use AOC\AbstractDay;
+use AbstractDay;
 
 abstract class AbstractDay2024 extends AbstractDay {
 

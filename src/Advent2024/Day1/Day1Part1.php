@@ -1,8 +1,8 @@
 <?php
 
-namespace AOC\Advent2024\Day1;
+namespace Advent2024\Day1;
 
-use AOC\Entity\Solution;
+use Entity\Solution;
 
 require_once 'AbstractDay1.php';
 

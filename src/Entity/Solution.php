@@ -1,6 +1,6 @@
 <?php
 
-namespace AOC\Entity;
+namespace Entity;
 
 class Solution {
 

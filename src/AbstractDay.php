@@ -1,13 +1,10 @@
 <?php
 
-namespace AOC;
-
 require_once 'Tool\InputReader.php';
 require_once __DIR__ . '\..\bootstrap.php';
 require_once __DIR__ . '\Entity\Solution.php';
 
-use AOC\Entity\Solution;
-use Exception;
+use Entity\Solution;
 use Tool\InputReader;
 use Twig\Environment;
 use Twig\Error\LoaderError;
