@@ -12,8 +12,12 @@ class SafetyResult {
         public readonly bool  $safe,
         public readonly bool  $ascending,
         public readonly array $annotations,
-        public readonly int $lastIndex,
+        public readonly int   $lastIndex,
     ) {}
+
+    public static function CompareByLastIndex(SafetyResult $a, SafetyResult $b): int {
+        return $b->lastIndex - $a->lastIndex;
+    }
 
 }
 
@@ -83,34 +87,49 @@ class SafetyChecker {
         int   $redNoseSafety = 1,
         array $skippedIndexes = [],
     ): SafetyResult {
-        $isSafe         = true;
-        $annotations    = [];
-        $previousIndex  = -1;
-        $previousValue  = null;
+        $isSafe            = true;
+        $annotations       = [];
+        $currentIndex      = -1;
+        $previousIndex     = -1;
+        $previousValue     = null;
         $differenceChecker = new DifferenceChecker($this->absMin, $this->absMax);
 
         foreach($data as $currentIndex => $currentValue) {
             if(!in_array($currentIndex, $skippedIndexes)) {
                 if(!$differenceChecker->isSafe($previousValue, $currentValue)) {
                     if($redNoseSafety > 0) {
-                        $resultIfRemovePrevious = $this->check($data, $redNoseSafety - 1, [...$skippedIndexes, $previousIndex]);
-
-                        if($resultIfRemovePrevious->safe) {
-                            return $resultIfRemovePrevious;
-                        }
+                        $results = [];
 
                         $resultIfRemoveCurrent = $this->check($data, $redNoseSafety - 1, [...$skippedIndexes, $currentIndex]);
+                        $results[]             = $resultIfRemoveCurrent;
 
                         if($resultIfRemoveCurrent->safe) {
                             return $resultIfRemoveCurrent;
                         }
 
-                        return ($resultIfRemovePrevious->lastIndex > $resultIfRemoveCurrent->lastIndex) ? $resultIfRemovePrevious : $resultIfRemoveCurrent;
+                        $resultIfRemovePrevious = $this->check($data, $redNoseSafety - 1, [...$skippedIndexes, $previousIndex]);
+                        $results[]              = $resultIfRemovePrevious;
+
+                        if($resultIfRemovePrevious->safe) {
+                            return $resultIfRemovePrevious;
+                        }
+
+                        // This is in case we fail when comparing elements 1 and 2 because the order (asc vs desc) is changing, so we try removing element 0.
+                        if($currentIndex == 2) {
+                            $resultIfRemoveFirst = $this->check($data, $redNoseSafety - 1, [...$skippedIndexes, 0]);
+                            $results[]           = $resultIfRemoveFirst;
+
+                            if($resultIfRemoveFirst->safe) {
+                                return $resultIfRemoveFirst;
+                            }
+                        }
+
+                        usort($results, [SafetyResult::class, 'CompareByLastIndex']);
+                        return $results[0];
                     }
 
                     $isSafe                     = false;
                     $annotations[$currentIndex] = self::COLOR_UNSAFE;
-                    $previousIndex = $currentIndex;
                     break;
                 }
 
@@ -122,7 +141,7 @@ class SafetyChecker {
             }
         }
 
-        return new SafetyResult($isSafe, $differenceChecker->isAscending(), $annotations, $previousIndex);
+        return new SafetyResult($isSafe, $differenceChecker->isAscending(), $annotations, $currentIndex);
     }
 
 }
