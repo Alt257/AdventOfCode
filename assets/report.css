@@ -92,6 +92,8 @@
         .report__column--calculation {
             /*grid-area: calculation;*/
             display: grid;
+            grid-auto-flow: column;
+            justify-content: start;
         }
 
         /*}*/
