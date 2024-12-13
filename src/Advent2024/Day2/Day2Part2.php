@@ -102,6 +102,7 @@ class Day2Part2 extends AbstractDay2 {
             $security = '['
                       . $this->style($isSafe ? self::SAFE : self::UNSAFE)
                       . ']';
+            
             $order = $isAscending ? 'Ascending' : 'Descending';
 
             $calculation = $this->col($security, '6em')
