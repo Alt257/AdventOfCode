@@ -2,6 +2,8 @@
 
 namespace Tool;
 
+use Symfony\Component\Dotenv\Dotenv;
+
 class InputReader {
 
     private const WEBSITE = "https://adventofcode.com";
@@ -12,7 +14,10 @@ class InputReader {
     public function __construct(
         private readonly int $year,
         private readonly int $day,
-    ) {}
+    ) {
+        $env = new Dotenv();
+        $env->loadEnv(__DIR__ . '\..\..\.env');
+    }
 
     public function loadTask(): string {
         $url     = $this->constructTaskUrl();
@@ -57,8 +62,7 @@ class InputReader {
     }
 
     private function constructContext() {
-        $session_cookie = "53616c7465645f5fb1de84e38c76d5989e1b4507efd4282560f735a3511542ae547eabb47db56dea6a040a71d6f7aa47d30dfa00da314be83d8c73249318aca1";
-//        $session_cookie = getenv('AOC_SESSION');
+        $session_cookie = $_ENV['AOC_SESSION'];
         return stream_context_create([
                                          "http" => [
                                              "method" => "GET",

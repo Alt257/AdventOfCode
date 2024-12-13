@@ -1,5 +1,6 @@
 {
-    "require": {
-        "twig/twig": "^3.16"
-    }
+  "require": {
+    "twig/twig": "^3.16",
+    "symfony/dotenv": "^7.2"
+  }
 }
