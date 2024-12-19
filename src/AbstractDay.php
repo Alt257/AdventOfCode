@@ -1,11 +1,11 @@
 <?php
 
-require_once 'Tool\InputReader.php';
+require_once 'Service\AdventOfCodeService.php';
 require_once __DIR__ . '\..\bootstrap.php';
 require_once __DIR__ . '\Entity\Solution.php';
 
 use Entity\Solution;
-use Tool\InputReader;
+use Service\AdventOfCodeService;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -19,11 +19,12 @@ abstract class AbstractDay {
     /**
      * @Template array<Solution>
      */
-    protected array $solutions;
+    protected array               $solutions;
+    protected AdventOfCodeService $adventOfCodeService;
 
     protected function __construct(private readonly int     $year,
                                    private readonly int     $day,
-                                   private readonly ?int    $part = null,
+                                   private readonly ?int    $level = null,
                                    private readonly ?string $calculationLabel = null,
     ) {}
 
@@ -46,9 +47,10 @@ abstract class AbstractDay {
      */
     public function run(): void {
 
-        $reader      = new InputReader($this->year, $this->day);
-        $rawTestData = $reader->loadTestInput();
-        $rawData     = $reader->loadInput();
+        $this->adventOfCodeService = new AdventOfCodeService();
+
+        $rawTestData = $this->adventOfCodeService->loadTestInput($this->year, $this->day);
+        $rawData     = $this->adventOfCodeService->loadInput($this->year, $this->day);
 
         $this->addSolution('Test data', $rawTestData);
         $this->addSolution('Input', $rawData);
@@ -59,19 +61,37 @@ abstract class AbstractDay {
         }
 
         try {
-            $this->render(['solutions' => $this->solutions]);
+            $this->render([
+                              'solutions' => $this->solutions,
+                              //                              'adventOfCode' => $this->adventOfCodeService,
+                              'action'    => $this,
+                          ]);
         }
         catch(Exception $e) {
             echo '<div style="color: red; font-weight: bold; font-size: xx-large;">Erreur dans le toasteur !</div>' . $e->getMessage();
         }
     }
 
+    public function submit(): string {
+//        echo('<div style="font-size: xxx-large; font-weight: bold">AbstractDay->submit() called !</div>');
+        $response = $this->adventOfCodeService->submit($this->year,
+                                                       $this->day,
+                                                       $this->level,
+                                                       $this->solutions['Input']->getResult(),
+        );
+
+        $pattern = "#<article><p>(.*)</p></article>#s";
+        preg_match($pattern, $response, $matches);
+
+        return $matches[1];
+    }
+
     protected function addSolution(string $solutionName,
                                    array  $rawData,
     ): Solution {
-        $data              = $this->getData($rawData);
-        $solution          = new Solution($solutionName, $data, $this->calculationLabel);
-        $this->solutions[] = $solution;
+        $data                           = $this->getData($rawData);
+        $solution                       = new Solution($solutionName, $data, $this->calculationLabel);
+        $this->solutions[$solutionName] = $solution;
         return $solution;
     }
 
@@ -131,10 +151,10 @@ abstract class AbstractDay {
      * @throws SyntaxError
      */
     private function render(array $data = []): void {
-        $data['title'] = "Advent Of Code $this->year - Day $this->day" . ($this->part === null ? '' : " - Part $this->part");
+        $data['title'] = "Advent Of Code $this->year - Day $this->day" . ($this->level === null ? '' : " - Part $this->level");
         $data['year']  = $this->year;
         $data['day']   = $this->day;
-        $data['part']  = $this->part;
+        $data['part']  = $this->level;
         echo self::twig()->render('day.html.twig', $data);
     }
 

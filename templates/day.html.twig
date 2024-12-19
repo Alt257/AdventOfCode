@@ -7,8 +7,9 @@
     <title>{{ title }}</title>
 
     {#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> #}
-    <link rel="stylesheet" type="text/css" href="/assets/day.css">
-    <link rel="stylesheet" type="text/css" href="/assets/report.css">
+    <link rel="stylesheet" type="text/css" href="/assets/style/day.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/style/report.css" />
+    <script type="text/javascript" src="/assets/script/SubmitAnswer.js"></script>
 </head>
 
 <body class="page">
@@ -29,10 +30,23 @@
     </div>
 
     <div class="page__footer">
+        {% set inputColumn = 0 %}
         {% for solution in solutions %}
             <div class="result">{{ solution.name }} : {{ solution.result }}</div>
+            {% if solution.name == "Input" %}
+                {% set inputColumn = loop.index %}
+            {% endif %}
         {% endfor %}
+
+        <div style="grid-column: {{ inputColumn }}">
+            {{ include('_submit_answer.html.twig', {
+                'level':    part,
+                'answer':   solutions.input.result,
+            }) }}
+        </div>
     </div>
+
+    <div id="aoc_response"></div>
 
 </body>
 </html>

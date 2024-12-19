@@ -2,6 +2,7 @@
 
 // Load our autoloader
 require_once __DIR__ . '\vendor\autoload.php';
+require_once __DIR__ . '\src\Service\AdventOfCodeService.php';
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;

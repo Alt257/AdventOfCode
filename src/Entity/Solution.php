@@ -7,6 +7,8 @@ class Solution {
     private array $dataStyles   = [];
     private array $calculations = [];
     private int   $result;
+    private array $wrongResults = [];
+
 
     /**
      * @param string $name
@@ -158,6 +160,23 @@ class Solution {
     public function setResult(int $result): Solution {
         $this->result = $result;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getWrongResults(): array {
+        return $this->wrongResults;
+    }
+
+    public function addWrongResult(int $result): self {
+        $this->wrongResults[] = $result;
+        $this->wrongResults   = array_unique($this->wrongResults);
+        return $this;
+    }
+
+    public function isKnownWrongResult(): bool {
+        return in_array($this->result, $this->wrongResults);
     }
 
 }
